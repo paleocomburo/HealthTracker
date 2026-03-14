@@ -1,0 +1,98 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:HealthTracker.UI.ViewModels.BloodPressure"
+        xmlns:enums="using:HealthTracker.Shared.Enums"
+        xmlns:conv="using:HealthTracker.UI.Converters"
+        x:Class="HealthTracker.UI.Views.BloodPressure.BloodPressureEntryDialog"
+        x:DataType="vm:BloodPressureEntryDialogViewModel"
+        Title="Add blood pressure entry"
+        Width="440"
+        MinHeight="300"
+        SizeToContent="Height"
+        CanResize="True"
+        WindowStartupLocation="CenterOwner">
+
+    <StackPanel Margin="24" Spacing="10">
+
+        <!-- Date -->
+        <StackPanel Spacing="4">
+            <TextBlock Text="Date" Foreground="#B0B0CC" FontSize="13" />
+            <DatePicker SelectedDate="{Binding EntryDate}" />
+        </StackPanel>
+
+        <!-- Time of day -->
+        <StackPanel Spacing="4">
+            <TextBlock Text="Time of day" Foreground="#B0B0CC" FontSize="13" />
+            <StackPanel Orientation="Horizontal" Spacing="4">
+                <Button Classes="toggle"
+                        Classes.active="{Binding TimeOfDay, Converter={x:Static conv:EnumEqualityConverter.Instance}, ConverterParameter={x:Static enums:TimeOfDay.Morning}}"
+                        Command="{Binding SetMorningCommand}"
+                        Content="Morning"
+                        AutomationProperties.Name="Morning" />
+                <Button Classes="toggle"
+                        Classes.active="{Binding TimeOfDay, Converter={x:Static conv:EnumEqualityConverter.Instance}, ConverterParameter={x:Static enums:TimeOfDay.Afternoon}}"
+                        Command="{Binding SetAfternoonCommand}"
+                        Content="Afternoon"
+                        AutomationProperties.Name="Afternoon" />
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock Text="Readings (systolic / diastolic, mmHg)"
+                   Foreground="#B0B0CC"
+                   FontSize="13"
+                   Margin="0,8,0,0" />
+
+        <ItemsControl ItemsSource="{Binding Readings}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:BpReadingRowViewModel">
+                    <Grid ColumnDefinitions="Auto,*,12,*,Auto" Margin="0,3">
+                        <TextBlock Grid.Column="0"
+                                   Foreground="#505078"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,8,0"
+                                   FontSize="12" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding SystolicInput}"
+                                 Watermark="Systolic"
+                                 AutomationProperties.Name="Systolic reading" />
+                        <TextBlock Grid.Column="2" Text="/" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" Foreground="#7070A0" />
+                        <TextBox Grid.Column="3"
+                                 Text="{Binding DiastolicInput}"
+                                 Watermark="Diastolic"
+                                 AutomationProperties.Name="Diastolic reading" />
+                        <Button Grid.Column="4"
+                                Content="×"
+                                Command="{Binding $parent[ItemsControl].((vm:BloodPressureEntryDialogViewModel)DataContext).RemoveReadingCommand}"
+                                CommandParameter="{Binding}"
+                                Margin="6,0,0,0"
+                                Width="28"
+                                Padding="0"
+                                Foreground="#7070A0"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                AutomationProperties.Name="Remove reading" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- Add reading link -->
+        <Button Classes="link"
+                Content="+ Add reading"
+                Command="{Binding AddReadingCommand}"
+                IsEnabled="{Binding Readings.Count, Converter={x:Static conv:CountLessThanFiveConverter.Instance}}"
+                AutomationProperties.Name="Add blood pressure reading" />
+
+        <TextBlock Text="{Binding ValidationError}"
+                   Foreground="#EF4444"
+                   IsVisible="{Binding ValidationError, Converter={x:Static ObjectConverters.IsNotNull}}"
+                   FontSize="12" />
+
+        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Classes="secondary" Content="Cancel" Command="{Binding CancelCommand}" />
+            <Button Classes="accent" Content="Save entry" Command="{Binding SaveCommand}" IsEnabled="{Binding IsSaveEnabled}" />
+        </StackPanel>
+
+    </StackPanel>
+</Window>

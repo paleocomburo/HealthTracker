@@ -1,0 +1,109 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:HealthTracker.UI.ViewModels"
+        xmlns:conv="using:HealthTracker.UI.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="HealthTracker.UI.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Health Tracker"
+        MinWidth="900"
+        MinHeight="600"
+        Width="1200"
+        Height="750">
+
+    <Grid ColumnDefinitions="220,*">
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0"
+                Background="#13132A"
+                BorderBrush="#252545"
+                BorderThickness="0,0,1,0">
+            <DockPanel>
+                <!-- App title -->
+                <StackPanel DockPanel.Dock="Top" Margin="16,20,16,24" Spacing="2">
+                    <TextBlock Text="Health Tracker"
+                               Foreground="#EEEEFF"
+                               FontSize="16"
+                               FontWeight="Bold" />
+                    <TextBlock Text="v1.0"
+                               Foreground="#50508A"
+                               FontSize="11" />
+                </StackPanel>
+
+                <!-- Settings pinned to bottom -->
+                <Button DockPanel.Dock="Bottom"
+                        Classes="nav"
+                        Classes.active="{Binding IsSettingsActive}"
+                        Command="{Binding NavigateToSettingsCommand}"
+                        Content="⚙  Settings"
+                        Margin="8,4,8,12"
+                        AutomationProperties.Name="Settings" />
+
+                <!-- Main nav items -->
+                <StackPanel Spacing="2" Margin="8,0">
+                    <Button Classes="nav"
+                            Classes.active="{Binding IsDashboardActive}"
+                            Command="{Binding NavigateToDashboardCommand}"
+                            Content="⊞  Dashboard"
+                            AutomationProperties.Name="Dashboard" />
+                    <Button Classes="nav"
+                            Classes.active="{Binding IsWeightActive}"
+                            Command="{Binding NavigateToWeightCommand}"
+                            Content="⚖  Weight"
+                            AutomationProperties.Name="Weight" />
+                    <Button Classes="nav"
+                            Classes.active="{Binding IsBloodPressureActive}"
+                            Command="{Binding NavigateToBloodPressureCommand}"
+                            Content="♥  Blood pressure"
+                            AutomationProperties.Name="Blood Pressure" />
+                    <Button Classes="nav"
+                            Classes.active="{Binding IsBloodSugarActive}"
+                            Command="{Binding NavigateToBloodSugarCommand}"
+                            Content="◈  Blood sugar"
+                            AutomationProperties.Name="Blood Sugar" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Content area + notification bar -->
+        <DockPanel Grid.Column="1" Background="#1A1A2E">
+
+            <!-- Notification area -->
+            <ItemsControl DockPanel.Dock="Bottom"
+                          ItemsSource="{Binding Notifications.Messages}"
+                          IsVisible="{Binding Notifications.Messages.Count, Converter={x:Static conv:CountToBoolConverter.Instance}}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:NotificationMessage">
+                        <Border Padding="12,8"
+                                Margin="4,2"
+                                CornerRadius="4"
+                                Background="{Binding Severity, Converter={x:Static conv:SeverityToBrushConverter.Instance}}">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding Text}"
+                                           Foreground="White"
+                                           TextWrapping="Wrap"
+                                           VerticalAlignment="Center" />
+                                <Button Grid.Column="1"
+                                        Command="{Binding DismissCommand}"
+                                        CommandParameter="{Binding}"
+                                        Content="✕"
+                                        Padding="6,2"
+                                        Margin="8,0,0,0"
+                                        Background="Transparent"
+                                        Foreground="White"
+                                        AutomationProperties.Name="Dismiss notification" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Main content via ViewLocator -->
+            <ContentControl Content="{Binding CurrentView}" Margin="0" />
+        </DockPanel>
+    </Grid>
+</Window>

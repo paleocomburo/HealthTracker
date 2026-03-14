@@ -1,0 +1,102 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HealthTracker.UI.ViewModels"
+             xmlns:dtos="using:HealthTracker.Shared.Dtos"
+             xmlns:conv="using:HealthTracker.UI.Converters"
+             xmlns:vmShared="using:HealthTracker.UI.ViewModels.Shared"
+             xmlns:vShared="using:HealthTracker.UI.Views.Shared"
+             xmlns:scottPlot="using:ScottPlot.Avalonia"
+             x:Class="HealthTracker.UI.Views.BloodPressureView"
+             x:DataType="vm:BloodPressureViewModel">
+
+    <DockPanel Background="#1A1A2E">
+
+        <!-- Header bar -->
+        <Border DockPanel.Dock="Top" Classes="header-bar">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="Blood pressure" Classes="page-title" />
+                    <vShared:DateRangeFilterView DataContext="{Binding Filter}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                    <Button Classes="secondary"
+                            Content="Export CSV"
+                            Command="{Binding ExportCommand}"
+                            AutomationProperties.Name="Export blood pressure data to CSV" />
+                    <Button Classes="accent"
+                            Content="+ Add entry"
+                            Command="{Binding AddEntryCommand}"
+                            AutomationProperties.Name="Add blood pressure entry" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Error banner -->
+        <Border DockPanel.Dock="Top"
+                Classes="error-banner"
+                IsVisible="{Binding ErrorMessage, Converter={x:Static ObjectConverters.IsNotNull}}">
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF8080" />
+        </Border>
+
+        <!-- Chart / Table tabs -->
+        <TabControl Margin="0">
+            <TabItem Header="Chart">
+                <scottPlot:AvaPlot Name="PlotControl" Margin="8" />
+            </TabItem>
+            <TabItem Header="Table">
+                <DataGrid ItemsSource="{Binding Entries}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserSortColumns="True"
+                          Margin="8">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date"
+                                            Binding="{Binding Entry.Date, StringFormat='{}{0:MMM d, yyyy}'}"
+                                            Width="130" />
+                        <DataGridTextColumn Header="Time"
+                                            Binding="{Binding Entry.TimeOfDay}"
+                                            Width="90" />
+                        <DataGridTemplateColumn Header="Systolic / Diastolic (mmHg)" Width="220">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="vm:BloodPressureEntryDisplay">
+                                    <StackPanel Margin="4,2" Spacing="1">
+                                        <TextBlock Text="{Binding AvgDisplay}" />
+                                        <ItemsControl ItemsSource="{Binding ReadingDisplays}"
+                                                      IsVisible="{Binding HasMultipleReadings}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"
+                                                               FontSize="11"
+                                                               Foreground="#5A5A80" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Actions" Width="140">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="4" Margin="4,0">
+                                        <Button Classes="small"
+                                                Content="Edit"
+                                                Command="{ReflectionBinding DataContext.EditEntryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                CommandParameter="{Binding}"
+                                                AutomationProperties.Name="Edit entry" />
+                                        <Button Classes="small"
+                                                Content="Delete"
+                                                Command="{ReflectionBinding DataContext.DeleteEntryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                CommandParameter="{Binding}"
+                                                AutomationProperties.Name="Delete entry" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
+</UserControl>

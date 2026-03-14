@@ -1,0 +1,109 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HealthTracker.UI.ViewModels"
+             xmlns:vShared="using:HealthTracker.UI.Views.Shared"
+             xmlns:scottPlot="using:ScottPlot.Avalonia"
+             x:Class="HealthTracker.UI.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+
+    <DockPanel Background="#1A1A2E">
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Classes="header-bar">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="Dashboard"
+                           Classes="page-title" />
+                <vShared:DateRangeFilterView Grid.Column="2"
+                                             DataContext="{Binding Filter}" />
+            </Grid>
+        </Border>
+
+        <!-- Three metric cards -->
+        <Grid ColumnDefinitions="*,*,*" Margin="12">
+
+            <!-- Weight card -->
+            <Border Grid.Column="0" Classes="card" Margin="4">
+                <DockPanel>
+                    <!-- Card header -->
+                    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="12,12,12,0">
+                        <StackPanel Grid.Column="0" Spacing="2">
+                            <TextBlock Text="Weight"
+                                       Foreground="#EEEEFF"
+                                       FontWeight="SemiBold"
+                                       FontSize="14" />
+                            <TextBlock Text="{Binding WeightSummary}"
+                                       Classes="metric-value" />
+                            <TextBlock Text="{Binding WeightLastReading}"
+                                       Classes="muted" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Classes="secondary"
+                                Content="View →"
+                                Command="{Binding GoToWeightCommand}"
+                                VerticalAlignment="Top"
+                                AutomationProperties.Name="Go to Weight view" />
+                    </Grid>
+                    <scottPlot:AvaPlot Name="WeightPlot"
+                                       Margin="4,8,4,4"
+                                       MinHeight="180" />
+                </DockPanel>
+            </Border>
+
+            <!-- Blood Pressure card -->
+            <Border Grid.Column="1" Classes="card" Margin="4">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="12,12,12,0">
+                        <StackPanel Grid.Column="0" Spacing="2">
+                            <TextBlock Text="Blood pressure"
+                                       Foreground="#EEEEFF"
+                                       FontWeight="SemiBold"
+                                       FontSize="14" />
+                            <TextBlock Text="{Binding BpSummary}"
+                                       Classes="metric-value" />
+                            <TextBlock Text="{Binding BpLastReading}"
+                                       Classes="muted" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Classes="secondary"
+                                Content="View →"
+                                Command="{Binding GoToBloodPressureCommand}"
+                                VerticalAlignment="Top"
+                                AutomationProperties.Name="Go to Blood Pressure view" />
+                    </Grid>
+                    <scottPlot:AvaPlot Name="BpPlot"
+                                       Margin="4,8,4,4"
+                                       MinHeight="180" />
+                </DockPanel>
+            </Border>
+
+            <!-- Blood Sugar card -->
+            <Border Grid.Column="2" Classes="card" Margin="4">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="12,12,12,0">
+                        <StackPanel Grid.Column="0" Spacing="2">
+                            <TextBlock Text="Blood sugar"
+                                       Foreground="#EEEEFF"
+                                       FontWeight="SemiBold"
+                                       FontSize="14" />
+                            <TextBlock Text="{Binding BsSummary}"
+                                       Classes="metric-value" />
+                            <TextBlock Text="{Binding BsLastReading}"
+                                       Classes="muted" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Classes="secondary"
+                                Content="View →"
+                                Command="{Binding GoToBloodSugarCommand}"
+                                VerticalAlignment="Top"
+                                AutomationProperties.Name="Go to Blood Sugar view" />
+                    </Grid>
+                    <scottPlot:AvaPlot Name="BsPlot"
+                                       Margin="4,8,4,4"
+                                       MinHeight="180" />
+                </DockPanel>
+            </Border>
+
+        </Grid>
+    </DockPanel>
+</UserControl>

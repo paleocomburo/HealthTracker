@@ -1,0 +1,220 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ===== WINDOW ===== -->
+    <Style Selector="Window">
+        <Setter Property="Background" Value="#1A1A2E" />
+    </Style>
+
+    <!-- ===== TEXT VARIANTS ===== -->
+    <Style Selector="TextBlock.muted">
+        <Setter Property="Foreground" Value="#7070A0" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <Style Selector="TextBlock.page-title">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="TextBlock.metric-value">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="#EEEEFF" />
+    </Style>
+
+    <Style Selector="TextBlock.metric-unit">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="#9090B8" />
+    </Style>
+
+    <!-- ===== HEADER BAR ===== -->
+    <Style Selector="Border.header-bar">
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="BorderBrush" Value="#252545" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+
+    <!-- ===== CARD (dashboard panels) ===== -->
+    <Style Selector="Border.card">
+        <Setter Property="Background" Value="#1F1F38" />
+        <Setter Property="BorderBrush" Value="#2A2A48" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <!-- ===== SECTION CARD (settings sections) ===== -->
+    <Style Selector="Border.section-card">
+        <Setter Property="Background" Value="#1E1E34" />
+        <Setter Property="BorderBrush" Value="#282848" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="20,16" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+    </Style>
+
+    <!-- ===== NAV BUTTONS ===== -->
+    <Style Selector="Button.nav">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#7070A0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="13,11" />
+        <Setter Property="BorderThickness" Value="3,0,0,0" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="0,6,6,0" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="Button.nav:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#222240" />
+    </Style>
+    <Style Selector="Button.nav.active">
+        <Setter Property="Foreground" Value="#EEEEFF" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="BorderBrush" Value="#7C6AF7" />
+    </Style>
+    <Style Selector="Button.nav.active /template/ ContentPresenter">
+        <Setter Property="Background" Value="#222240" />
+    </Style>
+    <Style Selector="Button.nav.active:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#2A2A50" />
+    </Style>
+
+    <!-- ===== PRIMARY / ACCENT BUTTON (purple) ===== -->
+    <Style Selector="Button.accent">
+        <Setter Property="Background" Value="#7C6AF7" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderBrush" Value="#7C6AF7" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="12,7" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="Button.accent:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#8A78FF" />
+    </Style>
+    <Style Selector="Button.accent:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="#6A58E5" />
+    </Style>
+    <Style Selector="Button.accent:disabled /template/ ContentPresenter">
+        <Setter Property="Background" Value="#40405A" />
+    </Style>
+
+    <!-- ===== SECONDARY (outlined) BUTTON ===== -->
+    <Style Selector="Button.secondary">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#C0C0D8" />
+        <Setter Property="BorderBrush" Value="#3A3A5C" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="12,7" />
+    </Style>
+    <Style Selector="Button.secondary:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#252545" />
+    </Style>
+
+    <!-- ===== FILTER MODE BUTTONS (Week / Month / Year / Custom) ===== -->
+    <Style Selector="Button.filter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#8080A8" />
+        <Setter Property="BorderBrush" Value="#32325A" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="Button.filter:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#252545" />
+    </Style>
+    <Style Selector="Button.filter.active">
+        <Setter Property="Foreground" Value="#1A1A30" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="BorderBrush" Value="#DDDDF0" />
+    </Style>
+    <Style Selector="Button.filter.active /template/ ContentPresenter">
+        <Setter Property="Background" Value="#DDDDF0" />
+    </Style>
+    <Style Selector="Button.filter.active:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#CACADC" />
+    </Style>
+
+    <!-- ===== TOGGLE BUTTONS (dialog: Morning / Afternoon) ===== -->
+    <Style Selector="Button.toggle">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#9090B8" />
+        <Setter Property="BorderBrush" Value="#3A3A5C" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="14,7" />
+        <Setter Property="MinWidth" Value="80" />
+    </Style>
+    <Style Selector="Button.toggle:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#252545" />
+    </Style>
+    <Style Selector="Button.toggle.active">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="BorderBrush" Value="#7C6AF7" />
+    </Style>
+    <Style Selector="Button.toggle.active /template/ ContentPresenter">
+        <Setter Property="Background" Value="#7C6AF7" />
+    </Style>
+
+    <!-- ===== SMALL TABLE BUTTONS (Edit / Delete) ===== -->
+    <Style Selector="Button.small">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#9898C0" />
+        <Setter Property="BorderBrush" Value="#32325A" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="8,3" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="MinWidth" Value="0" />
+    </Style>
+    <Style Selector="Button.small:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#252545" />
+    </Style>
+
+    <!-- ===== LINK-STYLE BUTTON (+ Add reading) ===== -->
+    <Style Selector="Button.link">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#7C6AF7" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0,4" />
+        <Setter Property="MinWidth" Value="0" />
+    </Style>
+    <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#9A88FF" />
+    </Style>
+    <Style Selector="Button.link:disabled /template/ ContentPresenter">
+        <Setter Property="Foreground" Value="#50508A" />
+    </Style>
+
+    <!-- ===== THRESHOLD BADGE (pill) ===== -->
+    <Style Selector="Border.badge">
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="Margin" Value="4,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- ===== AVERAGE DISPLAY BOX (entry dialogs) ===== -->
+    <Style Selector="Border.avg-box">
+        <Setter Property="Background" Value="#14142A" />
+        <Setter Property="BorderBrush" Value="#282848" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="Margin" Value="0,6,0,2" />
+    </Style>
+
+    <!-- ===== ERROR BANNER (dark) ===== -->
+    <Style Selector="Border.error-banner">
+        <Setter Property="Background" Value="#2D0A0A" />
+        <Setter Property="Padding" Value="12,8" />
+    </Style>
+
+</Styles>

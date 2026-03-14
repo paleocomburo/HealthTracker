@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HealthTracker.UI.ViewModels.Shared"
+             xmlns:conv="using:HealthTracker.UI.Converters"
+             xmlns:enums="using:HealthTracker.Shared.Enums"
+             x:Class="HealthTracker.UI.Views.Shared.DateRangeFilterView"
+             x:DataType="vm:DateRangeFilterViewModel">
+
+    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+
+        <!-- Mode selector as segmented buttons -->
+        <Button Classes="filter"
+                Classes.active="{Binding SelectedMode, Converter={x:Static conv:EnumEqualityConverter.Instance}, ConverterParameter={x:Static enums:DateRangeMode.Week}}"
+                Command="{Binding SelectModeCommand}"
+                CommandParameter="{x:Static enums:DateRangeMode.Week}"
+                Content="Week"
+                AutomationProperties.Name="Week view" />
+        <Button Classes="filter"
+                Classes.active="{Binding SelectedMode, Converter={x:Static conv:EnumEqualityConverter.Instance}, ConverterParameter={x:Static enums:DateRangeMode.Month}}"
+                Command="{Binding SelectModeCommand}"
+                CommandParameter="{x:Static enums:DateRangeMode.Month}"
+                Content="Month"
+                AutomationProperties.Name="Month view" />
+        <Button Classes="filter"
+                Classes.active="{Binding SelectedMode, Converter={x:Static conv:EnumEqualityConverter.Instance}, ConverterParameter={x:Static enums:DateRangeMode.Year}}"
+                Command="{Binding SelectModeCommand}"
+                CommandParameter="{x:Static enums:DateRangeMode.Year}"
+                Content="Year"
+                AutomationProperties.Name="Year view" />
+        <Button Classes="filter"
+                Classes.active="{Binding SelectedMode, Converter={x:Static conv:EnumEqualityConverter.Instance}, ConverterParameter={x:Static enums:DateRangeMode.Custom}}"
+                Command="{Binding SelectModeCommand}"
+                CommandParameter="{x:Static enums:DateRangeMode.Custom}"
+                Content="Custom"
+                AutomationProperties.Name="Custom date range" />
+
+        <!-- Prev -->
+        <Button Classes="filter"
+                Command="{Binding StepBackwardCommand}"
+                Width="28" Height="28"
+                Padding="0"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutomationProperties.Name="Previous period">
+            <PathIcon Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18Z"
+                      Width="12" Height="12" />
+        </Button>
+
+        <!-- Period label -->
+        <TextBlock Text="{Binding PeriodLabel}"
+                   VerticalAlignment="Center"
+                   MinWidth="80"
+                   TextAlignment="Center"
+                   Foreground="#C0C0D8"
+                   FontSize="13" />
+
+        <!-- Next -->
+        <Button Classes="filter"
+                Command="{Binding StepForwardCommand}"
+                Width="28" Height="28"
+                Padding="0"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutomationProperties.Name="Next period">
+            <PathIcon Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18Z"
+                      Width="12" Height="12" />
+        </Button>
+
+    </StackPanel>
+</UserControl>

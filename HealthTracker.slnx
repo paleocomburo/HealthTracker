@@ -1,0 +1,7 @@
+<Solution>
+    <Project Path="src/HealthTracker.Infrastructure/HealthTracker.Infrastructure.csproj" />
+    <Project Path="src/HealthTracker.Services/HealthTracker.Services.csproj" />
+    <Project Path="src/HealthTracker.Shared/HealthTracker.Shared.csproj" />
+    <Project Path="src/HealthTracker.Tests/HealthTracker.Tests.csproj" />
+    <Project Path="src/HealthTracker.UI/HealthTracker.UI.csproj" />
+</Solution>

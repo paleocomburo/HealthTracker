@@ -1,0 +1,128 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HealthTracker.UI.ViewModels"
+             x:Class="HealthTracker.UI.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <DockPanel Background="#1A1A2E">
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Classes="header-bar">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0" Text="Settings" Classes="page-title" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="{Binding StatusMessage}"
+                               VerticalAlignment="Center"
+                               Foreground="#7C6AF7"
+                               FontSize="13" />
+                    <Button Classes="secondary"
+                            Content="Save settings"
+                            Command="{Binding SaveCommand}"
+                            HotKey="Enter"
+                            AutomationProperties.Name="Save settings" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <ScrollViewer>
+            <StackPanel Margin="24" Spacing="0" MaxWidth="640">
+
+                <!-- Weight section -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Weight"
+                                   Foreground="#EEEEFF"
+                                   FontWeight="SemiBold"
+                                   FontSize="14" />
+                        <TextBlock Text="Optional target weight shown as a reference line on the chart"
+                                   Classes="muted"
+                                   Margin="0,0,0,12" />
+                        <TextBlock Text="Target weight (optional)"
+                                   Foreground="#B0B0CC"
+                                   FontSize="13"
+                                   Margin="0,0,0,4" />
+                        <TextBox Text="{Binding TargetWeightKg}"
+                                 Watermark="e.g. 80.0"
+                                 MaxWidth="200"
+                                 HorizontalAlignment="Left" />
+                        <TextBlock Text="kg · displayed as a dashed line on the weight chart"
+                                   Classes="muted"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Blood pressure section -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Blood pressure thresholds"
+                                   Foreground="#EEEEFF"
+                                   FontWeight="SemiBold"
+                                   FontSize="14" />
+                        <TextBlock Text="Values at or above these limits trigger a warning"
+                                   Classes="muted"
+                                   Margin="0,0,0,12" />
+                        <Grid ColumnDefinitions="*,24,*" RowDefinitions="Auto,Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="Systolic upper limit"
+                                       Foreground="#B0B0CC"
+                                       FontSize="13"
+                                       Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="0" Grid.Column="2"
+                                       Text="Diastolic upper limit"
+                                       Foreground="#B0B0CC"
+                                       FontSize="13"
+                                       Margin="0,0,0,4" />
+                            <TextBox Grid.Row="1" Grid.Column="0"
+                                     Text="{Binding BpSystolicUpper}"
+                                     Watermark="e.g. 140" />
+                            <TextBox Grid.Row="1" Grid.Column="2"
+                                     Text="{Binding BpDiastolicUpper}"
+                                     Watermark="e.g. 90" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Blood sugar section -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Blood sugar thresholds"
+                                   Foreground="#EEEEFF"
+                                   FontWeight="SemiBold"
+                                   FontSize="14" />
+                        <TextBlock Text="Two-level warning system — warning level triggers at or above the first value, too high at or above the second"
+                                   Classes="muted"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,12" />
+                        <Grid ColumnDefinitions="*,16,*,16,*" RowDefinitions="Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="Warning level"
+                                       Foreground="#B0B0CC"
+                                       FontSize="13"
+                                       Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="0" Grid.Column="2"
+                                       Text="Too high level"
+                                       Foreground="#B0B0CC"
+                                       FontSize="13"
+                                       Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="0" Grid.Column="4"
+                                       Text="Lower limit (optional)"
+                                       Foreground="#B0B0CC"
+                                       FontSize="13"
+                                       Margin="0,0,0,4" />
+                            <TextBox Grid.Row="1" Grid.Column="0"
+                                     Text="{Binding BloodSugarWarning}"
+                                     Watermark="e.g. 6.5" />
+                            <TextBox Grid.Row="1" Grid.Column="2"
+                                     Text="{Binding BloodSugarDanger}"
+                                     Watermark="e.g. 7.0" />
+                            <TextBox Grid.Row="1" Grid.Column="4"
+                                     Text="{Binding BloodSugarLower}"
+                                     Watermark="e.g. 3.9" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

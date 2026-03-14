@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:HealthTracker.UI.ViewModels.BloodSugar"
+        xmlns:conv="using:HealthTracker.UI.Converters"
+        x:Class="HealthTracker.UI.Views.BloodSugar.BloodSugarEntryDialog"
+        x:DataType="vm:BloodSugarEntryDialogViewModel"
+        Title="Add blood sugar entry"
+        Width="360"
+        SizeToContent="Height"
+        CanResize="True"
+        WindowStartupLocation="CenterOwner">
+
+    <StackPanel Margin="24" Spacing="10">
+
+        <TextBlock Text="Date" Foreground="#B0B0CC" FontSize="13" />
+        <DatePicker SelectedDate="{Binding EntryDate}" />
+
+        <TextBlock Text="Readings (mmol/L — fasting)"
+                   Foreground="#B0B0CC"
+                   FontSize="13"
+                   Margin="0,8,0,0" />
+
+        <ItemsControl ItemsSource="{Binding Readings}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:BloodSugarReadingRowViewModel">
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,3">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding ReadingInput}"
+                                 Watermark="e.g. 5.4"
+                                 AutomationProperties.Name="Blood sugar reading in mmol/L" />
+                        <Button Grid.Column="1"
+                                Content="×"
+                                Command="{Binding $parent[ItemsControl].((vm:BloodSugarEntryDialogViewModel)DataContext).RemoveReadingCommand}"
+                                CommandParameter="{Binding}"
+                                Margin="6,0,0,0"
+                                Width="28"
+                                Padding="0"
+                                Foreground="#7070A0"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                AutomationProperties.Name="Remove reading" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Text="{Binding ValidationError}"
+                   Foreground="#EF4444"
+                   IsVisible="{Binding ValidationError, Converter={x:Static ObjectConverters.IsNotNull}}"
+                   FontSize="12" />
+
+        <Button Classes="link"
+                Content="+ Add reading"
+                Command="{Binding AddReadingCommand}"
+                IsEnabled="{Binding Readings.Count, Converter={x:Static conv:CountLessThanThreeConverter.Instance}}"
+                AutomationProperties.Name="Add blood sugar reading" />
+
+        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Classes="secondary" Content="Cancel" Command="{Binding CancelCommand}" />
+            <Button Classes="accent" Content="Save entry" Command="{Binding SaveCommand}" IsEnabled="{Binding IsSaveEnabled}" />
+        </StackPanel>
+
+    </StackPanel>
+</Window>

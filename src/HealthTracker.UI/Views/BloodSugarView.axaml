@@ -1,0 +1,135 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HealthTracker.UI.ViewModels"
+             xmlns:conv="using:HealthTracker.UI.Converters"
+             xmlns:vShared="using:HealthTracker.UI.Views.Shared"
+             xmlns:scottPlot="using:ScottPlot.Avalonia"
+             x:Class="HealthTracker.UI.Views.BloodSugarView"
+             x:DataType="vm:BloodSugarViewModel">
+
+    <DockPanel Background="#1A1A2E">
+
+        <!-- Header bar -->
+        <Border DockPanel.Dock="Top" Classes="header-bar">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="Blood sugar" Classes="page-title" />
+                    <vShared:DateRangeFilterView DataContext="{Binding Filter}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                    <Button Classes="secondary"
+                            Content="Export CSV"
+                            Command="{Binding ExportCommand}"
+                            AutomationProperties.Name="Export blood sugar data to CSV" />
+                    <Button Classes="accent"
+                            Content="+ Add entry"
+                            Command="{Binding AddEntryCommand}"
+                            AutomationProperties.Name="Add blood sugar entry" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Error banner -->
+        <Border DockPanel.Dock="Top"
+                Classes="error-banner"
+                IsVisible="{Binding ErrorMessage, Converter={x:Static ObjectConverters.IsNotNull}}">
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF8080" />
+        </Border>
+
+        <!-- Chart / Table tabs -->
+        <TabControl Margin="0">
+            <TabItem Header="Chart">
+                <scottPlot:AvaPlot Name="PlotControl" Margin="8" />
+            </TabItem>
+            <TabItem Header="Table">
+                <DockPanel>
+                    <!-- Legend at bottom -->
+                    <StackPanel DockPanel.Dock="Bottom"
+                                Orientation="Horizontal" Spacing="16"
+                                Margin="12,6">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Ellipse Width="8" Height="8" Fill="#4ADE80" VerticalAlignment="Center" />
+                            <TextBlock Text="Normal" Classes="muted" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Ellipse Width="8" Height="8" Fill="#F59E0B" VerticalAlignment="Center" />
+                            <TextBlock Text="Warning (≥ warning threshold)" Classes="muted" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Ellipse Width="8" Height="8" Fill="#EF4444" VerticalAlignment="Center" />
+                            <TextBlock Text="Too high (≥ danger threshold)" Classes="muted" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <DataGrid ItemsSource="{Binding Entries}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserSortColumns="True"
+                              Margin="8,8,8,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Date"
+                                                Binding="{Binding Entry.Date, StringFormat='{}{0:MMM d, yyyy}'}"
+                                                Width="130" />
+                            <DataGridTemplateColumn Header="Average (mmol/L)" Width="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate x:DataType="vm:BloodSugarEntryDisplay">
+                                        <StackPanel Margin="4,3" Spacing="2">
+                                            <StackPanel Orientation="Horizontal" Spacing="0">
+                                                <TextBlock Text="{Binding AvgReading, StringFormat='{}{0:F1}'}"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{Binding Level, Converter={x:Static conv:ThresholdLevelToForegroundConverter.Instance}}" />
+                                                <Border Classes="badge"
+                                                        Background="{Binding Level, Converter={x:Static conv:ThresholdLevelToBrushConverter.Instance}}"
+                                                        IsVisible="{Binding HasStatus}">
+                                                    <TextBlock Text="{Binding StatusLabel}"
+                                                               FontSize="11"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="White" />
+                                                </Border>
+                                            </StackPanel>
+                                            <ItemsControl ItemsSource="{Binding ReadingDisplays}"
+                                                          IsVisible="{Binding HasMultipleReadings}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}"
+                                                                   FontSize="11"
+                                                                   Foreground="#5A5A80" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Readings"
+                                                Binding="{Binding ReadingsLabel}"
+                                                Width="110" />
+                            <DataGridTextColumn Header="Status"
+                                                Binding="{Binding Entry.Context}"
+                                                Width="90" />
+                            <DataGridTemplateColumn Header="Actions" Width="140">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="4,0">
+                                            <Button Classes="small"
+                                                    Content="Edit"
+                                                    Command="{ReflectionBinding DataContext.EditEntryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                    CommandParameter="{Binding}"
+                                                    AutomationProperties.Name="Edit entry" />
+                                            <Button Classes="small"
+                                                    Content="Delete"
+                                                    Command="{ReflectionBinding DataContext.DeleteEntryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                    CommandParameter="{Binding}"
+                                                    AutomationProperties.Name="Delete entry" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet new *)",
+      "WebSearch",
+      "Bash(dotnet build:*)",
+      "Bash(find:*)",
+      "mcp__cwm-roslyn-navigator__get_diagnostics",
+      "Bash(dotnet test:*)",
+      "WebFetch(domain:scottplot.net)"
+    ]
+  }
+}
